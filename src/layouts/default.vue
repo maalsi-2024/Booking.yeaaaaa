@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full h-full">
-        <slot class="w-full h-full"/>
+    <div >
+        <Navbar />
+        <slot  />
     </div>
 </template>

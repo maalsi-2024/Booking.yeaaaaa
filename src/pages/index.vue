@@ -1,20 +1,55 @@
 <template>
     <div>
-        <section class="relative h-screen flex flex-col items-center justify-center text-center text-white ">
+        <section class="relative h-screen flex flex-col items-center justify-center text-center text-white">
             <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
                 <video class="min-w-full min-h-full absolute object-cover"
-                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
-                    type="video/mp4" autoplay muted loop></video>
+                src="../assets/home_video.mp4"
+                type="video/mp4" autoplay muted loop></video>
+            </div>
+            <div class="grid grid-cols-3 gap-x-12 z-20 my-16">
+                <div @click="changeTitle('lodging')" class="bg-gray-100 flex justify-center items-center rounded-xl">
+                    <img src="../assets/home.png" class="w-28">
+                </div>
+                <div @click="changeTitle('restaurant')" class="bg-gray-100 flex justify-center items-center rounded-xl">
+                    <img src="../assets/activity.png" class="w-20">
+                </div>
+                <div @click="changeTitle('transport')" class="bg-gray-100 flex justify-center items-center rounded-xl">
+                    <img src="../assets/avion.png" class="w-24">
+                </div>
             </div>
             <div class="video-content space-y-2 z-10">
-                <h1 class="font-light text-6xl">full Hero Video</h1>
-                <h3 class="font-light text-3xl">with TailwindCSS</h3>
+                <transition name="fade">
+                    <h1 class="font-extrabold text-7xl" v-if="title" key="title">Book your {{ title }}</h1>
+                </transition>
+                <h3 class="font-light text-3xl">with Booking.yeaaaa</h3>
+            </div>
+            <div class="relative mt-20 z-40">
+                <input type="text" class="h-14 w-96 pr-8 pl-5 rounded z-0 text-gray-700" placeholder="Search anything...">
+                <div class="absolute top-4 right-3">
+                    <i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i>
+                </div>
             </div>
         </section>
-        
-
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            title: 'lodging', 
+        };
+    },
+    methods: {
+        changeTitle(newTitle) {
+            this.title = ''; 
+            setTimeout(() => {
+                this.title = newTitle;
+            }, 300);
+        },
+    },
+};
+</script>
 
 <style>
 .video-docker video {
@@ -32,5 +67,13 @@
     left: 0;
     background: rgba(0, 0, 0, 0.4);
     z-index: 1;
+}
+
+/* Transition for the title */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.3s ease-in-out;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
 }
 </style>
