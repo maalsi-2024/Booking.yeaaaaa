@@ -1,0 +1,14 @@
+[
+    {
+      "type": "Taxi",
+      "company": "City Cab",
+      "locations_served": ["Paris", "Londres", "Rome"],
+      "average_cost_per_km": 2.5
+    },
+    {
+      "type": "Train",
+      "company": "Eurostar",
+      "routes": ["Londres-Paris", "Paris-Bruxelles"],
+      "average_ticket_cost": 70
+    }
+]

@@ -91,7 +91,6 @@
     },
     methods: {
       addReservation() {
-
         this.reservations.push({ ...this.newReservation });
         this.newReservation = { name: "", date: "", time: "" };
       },
