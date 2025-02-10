@@ -1,0 +1,16 @@
+[
+    {
+      "name": "Chez Gourmet",
+      "location": "Paris, France",
+      "cuisine": "Française",
+      "rating": 4.9,
+      "average_cost_for_two": 120
+    },
+    {
+      "name": "Sushi Paradise",
+      "location": "Tokyo, Japon",
+      "cuisine": "Japonaise",
+      "rating": 4.7,
+      "average_cost_for_two": 90
+    }
+]

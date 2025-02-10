@@ -1,0 +1,16 @@
+[
+    {
+      "name": "Hôtel Le Grand",
+      "location": "Paris, France",
+      "rating": 4.8,
+      "price_per_night": 200,
+      "amenities": ["Wi-Fi gratuit", "Piscine", "Salle de sport", "Service de chambre"]
+    },
+    {
+      "name": "The Royal Inn",
+      "location": "Londres, Royaume-Uni",
+      "rating": 4.5,
+      "price_per_night": 180,
+      "amenities": ["Petit déjeuner inclus", "Bar", "Centre de conférences", "Spa"]
+    }
+]

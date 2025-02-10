@@ -3,23 +3,43 @@
         <section class="relative h-screen flex flex-col items-center justify-center text-center text-white">
             <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
                 <video class="min-w-full min-h-full absolute object-cover"
-                src="../assets/home_video.mp4"
-                type="video/mp4" autoplay muted loop></video>
+                    src="../assets/home_video.mp4"
+                    type="video/mp4" autoplay muted loop></video>
             </div>
             <div class="grid grid-cols-3 gap-x-12 z-20 my-16">
-                <div @click="changeTitle('lodging')" class="bg-gray-100 flex justify-center items-center rounded-xl">
-                    <img src="../assets/home.png" class="w-28">
+                <div
+                    @click="selectOption('lodging')"
+                    :class="[
+                        'bg-gray-100 flex justify-center items-center rounded-xl border-4 transition hover:scale-105',
+                        selectedOption === 'lodging' ? 'border-blue-400' : 'border-white'
+                    ]"
+                >
+                    <img src="../assets/home.png" class="w-24">
                 </div>
-                <div @click="changeTitle('restaurant')" class="bg-gray-100 flex justify-center items-center rounded-xl">
-                    <img src="../assets/activity.png" class="w-20">
+                <div
+                    @click="selectOption('restaurant')"
+                    :class="[
+                        'bg-gray-100 flex justify-center items-center rounded-xl border-4 transition hover:scale-105',
+                        selectedOption === 'restaurant' ? 'border-blue-400' : 'border-white'
+                    ]"
+                >
+                    <img src="../assets/activity.png" class="w-16">
                 </div>
-                <div @click="changeTitle('transport')" class="bg-gray-100 flex justify-center items-center rounded-xl">
-                    <img src="../assets/avion.png" class="w-24">
+                <div
+                    @click="selectOption('transport')"
+                    :class="[
+                        'bg-gray-100 flex justify-center items-center rounded-xl border-4 transition hover:scale-105',
+                        selectedOption === 'transport' ? 'border-blue-400' : 'border-white'
+                    ]"
+                >
+                    <img src="../assets/avion.png" class="w-20">
                 </div>
             </div>
             <div class="video-content space-y-2 z-10">
                 <transition name="fade">
-                    <h1 class="font-extrabold text-7xl" v-if="title" key="title">Book your {{ title }}</h1>
+                    <h1 class="font-extrabold text-6xl text-gray-100" v-if="selectedOption" key="title">
+                        Book your <span>{{ selectedOption }}</span>
+                    </h1>
                 </transition>
                 <h3 class="font-light text-3xl">with Booking.yeaaaa</h3>
             </div>
@@ -37,15 +57,12 @@
 export default {
     data() {
         return {
-            title: 'lodging', 
+            selectedOption: 'lodging', 
         };
     },
     methods: {
-        changeTitle(newTitle) {
-            this.title = ''; 
-            setTimeout(() => {
-                this.title = newTitle;
-            }, 300);
+        selectOption(option) {
+            this.selectedOption = option; 
         },
     },
 };
