@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Liste des Hôtels</h1>
-    <ul>
+    <ul v-if="hotels">
       <li v-for="hotel in hotels" :key="hotel.name">
         <h3>{{ hotel.name }}</h3>
         <p>Localisation : {{ hotel.location }}</p>
@@ -9,9 +9,10 @@
         <p>Prix par nuit : {{ hotel.price_per_night }}€</p>
       </li>
     </ul>
+    <p v-else>Chargement des hôtels...</p>
 
     <h1>Liste des Restaurants</h1>
-    <ul>
+    <ul v-if="restaurants">
       <li v-for="restaurant in restaurants" :key="restaurant.name">
         <h3>{{ restaurant.name }}</h3>
         <p>Localisation : {{ restaurant.location }}</p>
@@ -19,48 +20,24 @@
         <p>Note : {{ restaurant.rating }}</p>
       </li>
     </ul>
+    <p v-else>Chargement des restaurants...</p>
 
     <h1>Liste des Transports</h1>
-    <ul>
+    <ul v-if="transports">
       <li v-for="transport in transports" :key="transport.company">
         <h3>{{ transport.type }} - {{ transport.company }}</h3>
         <p>Itinéraires : {{ transport.routes?.join(', ') || transport.locations_served.join(', ') }}</p>
         <p>Prix moyen : {{ transport.average_cost_per_km || transport.average_ticket_cost }}€</p>
       </li>
     </ul>
+    <p v-else>Chargement des transports...</p>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      hotels: [],
-      restaurants: [],
-      transports: []
-    };
-  },
-  created() {
-    // Charger les données des JSON
-    this.loadData();
-  },
-  methods: {
-    async loadData() {
-      try {
-        const hotelsResponse = await fetch("/path/to/hotels.json");
-        this.hotels = await hotelsResponse.json();
-
-        const restaurantsResponse = await fetch("/path/to/restaurants.json");
-        this.restaurants = await restaurantsResponse.json();
-
-        const transportsResponse = await fetch("/path/to/transports.json");
-        this.transports = await transportsResponse.json();
-      } catch (error) {
-        console.error("Erreur lors du chargement des données :", error);
-      }
-    }
-  }
-};
+<script setup>
+import hotels from "~/public/bdd/hotels.json";
+import restaurants from "~/public/bdd/restaurants.json";
+import transports from "~/public/bdd/transports.json";
 </script>
 
 <style>
