@@ -1,53 +1,43 @@
+from django.contrib.auth.models import User
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
-class User(AbstractUser):
-    ROLE_CHOICES = [
-        ('Client', 'Client'),
-        ('Admin', 'Admin'),
-    ]
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='Client')
-    reservation_history = models.JSONField(default=list, blank=True)
-
-class VacationOffer(models.Model):
-    OFFER_TYPE_CHOICES = [
-        ('Accommodation', 'Accommodation'),
-        ('Activity', 'Activity'),
-        ('Transport', 'Transport'),
-    ]
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    offer_type = models.CharField(max_length=20, choices=OFFER_TYPE_CHOICES)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    photos = models.JSONField(default=list, blank=True) 
-    availability = models.BooleanField(default=True)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    is_admin = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.offer_type} - {self.title}"
+        return self.user.username
 
-class Reservation(models.Model):
-    STATUS_CHOICES = [
-        ('EnCours', 'EnCours'),
-        ('Confirmer', 'Confirmer'),
-        ('Annuler', 'Annuler'),
-    ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reservations')
-    offer = models.ForeignKey(VacationOffer, on_delete=models.CASCADE, related_name='reservations')
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='EnCours')
-    date = models.DateTimeField(auto_now_add=True)
-    payment_status = models.BooleanField(default=False)
+class Room(models.Model):
+    room_number = models.CharField(max_length=10, unique=True)
+    room_type = models.CharField(max_length=50)
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
+    capacity = models.IntegerField()
+    description = models.TextField(blank=True, null=True)
+    available = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"Réservation pour {self.offer.title} par {self.user.username}"
+        return f"Room {self.room_number} - {self.room_type}"
 
-class AdminDashboard(models.Model):
-    top_destinations = models.JSONField(default=list, blank=True)
-    popular_periods = models.JSONField(default=list, blank=True)
-
-class VacationStatistics(models.Model):
-    destination = models.CharField(max_length=255)
-    total_bookings = models.IntegerField()
-    most_popular_period = models.CharField(max_length=50)
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    check_in = models.DateField()
+    check_out = models.DateField()
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'), ('Cancelled', 'Cancelled')], default='Pending')
 
     def __str__(self):
-        return f"Stats pour {self.destination}"
+        return f"Booking {self.id} by {self.user.username}"
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.user.username} for Room {self.room.room_number}"
