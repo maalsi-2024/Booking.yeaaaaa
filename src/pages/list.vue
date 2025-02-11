@@ -35,9 +35,21 @@
 </template>
 
 <script setup>
-import hotels from "~/public/bdd/hotels.json";
-import restaurants from "~/public/bdd/restaurants.json";
-import transports from "~/public/bdd/transports.json";
+// import hotels from "~/public/bdd/hotels.json";
+// import restaurants from "~/public/bdd/restaurants.json";
+// import transports from "~/public/bdd/transports.json";
+
+const { data: restaurants } = await useFetch('/api/restaurants');
+/* const { data: hotels } = await useFetch('/api/hotels'); */
+const { data: transports } = await useFetch('/api/transports');
+
+const { data: hotels, pending, error } = useAsyncData("hotels", () =>
+  $fetch("/api/hotels")
+);
+
+console.log("restaurants", restaurants.value)
+console.log("hotels", hotels.value)
+console.log("transports", transports.value)
 </script>
 
 <style>
